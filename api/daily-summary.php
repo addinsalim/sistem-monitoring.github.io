@@ -45,3 +45,4 @@ try {
         'message' => 'Gagal mengambil daily summary: ' . $e->getMessage()
     ]);
 }
+

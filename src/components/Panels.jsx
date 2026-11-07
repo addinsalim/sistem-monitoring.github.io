@@ -140,7 +140,15 @@ export function InfoPanel() {
 /* ─── Parameter Panel ─── */
 const paramIcons = [Gauge, Flame, Car, Thermometer, Droplets]
 
-export function ParamPanel() {
+export function ParamPanel({ telemetry }) {
+  const list = telemetry ? [
+    { label: 'PM2.5 (Debu)',   value: telemetry.pm25,          unit: 'μg/m³', status: telemetry.status },
+    { label: 'Asap Rokok',     value: telemetry.asapRokok,     unit: 'μg/m³', status: telemetry.asapRokok > 15 ? 'Sedang' : 'Baik' },
+    { label: 'Asap Kendaraan', value: telemetry.asapKendaraan, unit: 'μg/m³', status: telemetry.asapKendaraan > 20 ? 'Sedang' : 'Baik' },
+    { label: 'Suhu',           value: telemetry.suhu ?? 28,    unit: '°C',     status: null },
+    { label: 'Kelembapan',     value: telemetry.kelembapan ?? 65, unit: '%',   status: null },
+  ] : parameters
+
   return (
     <article className="panel bottom-panel param-panel">
       <div className="panel-heading">
@@ -150,7 +158,7 @@ export function ParamPanel() {
         </h2>
       </div>
       <div className="param-list">
-        {parameters.map((p, i) => {
+        {list.map((p, i) => {
           const Icon = paramIcons[i] || Activity
           return (
             <div className="param-row" key={p.label}>
@@ -164,7 +172,7 @@ export function ParamPanel() {
                   <span className="param-unit"> {p.unit}</span>
                 </span>
                 {p.status
-                  ? <StatusBadge label={p.status} tone="green" />
+                  ? <StatusBadge label={p.status} tone={p.status === 'Baik' ? 'green' : p.status === 'Sedang' ? 'amber' : 'red'} />
                   : <span className="param-dash">—</span>
                 }
               </div>

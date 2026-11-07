@@ -76,3 +76,4 @@ try {
         'message' => 'Gagal mengambil riwayat sensor: ' . $e->getMessage()
     ]);
 }
+

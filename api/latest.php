@@ -65,3 +65,4 @@ try {
         'message' => 'Gagal mengambil data sensor terbaru: ' . $e->getMessage()
     ]);
 }
+

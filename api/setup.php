@@ -61,3 +61,4 @@ try {
         'message' => $e->getMessage()
     ], JSON_PRETTY_PRINT);
 }
+

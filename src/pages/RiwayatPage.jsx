@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Activity, AlertTriangle, CalendarDays, ChevronDown,
   ChevronRight, Download, Gauge, Info, Search,
@@ -12,10 +12,13 @@ import SectionTitle from '../components/SectionTitle'
 import StatusBadge from '../components/StatusBadge'
 import { HistoryStat } from '../components/SensorCards'
 import RowDetailModal from '../components/RowDetailModal'
-import { history, dailySummary } from '../data/mockData'
+import { history as initialHistory, dailySummary as initialDailySummary } from '../data/mockData'
+import { airQualityService } from '../services/airQualityService'
 
 export default function RiwayatPage() {
   const ROWS_PER_PAGE = 8
+  const [dataList, setDataList] = useState(initialHistory)
+  const [dailyData, setDailyData] = useState(initialDailySummary)
   const [query, setQuery] = useState('')
   const [filterStatus, setFilterStatus] = useState('Semua')
   const [filterDate, setFilterDate] = useState('Semua')
@@ -23,12 +26,21 @@ export default function RiwayatPage() {
   const [detailRow, setDetailRow] = useState(null)
   const [exportMsg, setExportMsg] = useState('')
 
+  useEffect(() => {
+    airQualityService.getHistory().then(res => {
+      if (res && res.length > 0) setDataList(res)
+    })
+    airQualityService.getDailySummary().then(res => {
+      if (res && res.length > 0) setDailyData(res)
+    })
+  }, [])
+
   // Unique dates for filter dropdown
-  const uniqueDates = ['Semua', ...Array.from(new Set(history.map(r => r.date)))]
+  const uniqueDates = ['Semua', ...Array.from(new Set(dataList.map(r => r.date)))]
 
   // Filtering
-  const filtered = history.filter(r => {
-    const matchQuery = r.time.toLowerCase().includes(query.toLowerCase()) ||
+  const filtered = dataList.filter(r => {
+    const matchQuery = (r.time || '').toLowerCase().includes(query.toLowerCase()) ||
                        String(r.pm25).includes(query) ||
                        String(r.asapRokok).includes(query)
     const matchStatus = filterStatus === 'Semua' || r.status === filterStatus
@@ -45,11 +57,11 @@ export default function RiwayatPage() {
   const handleQuery        = v => { setQuery(v);        setPage(1) }
 
   // Summary stats (over all data, not filtered)
-  const pm25Values = history.map(r => r.pm25)
-  const avgPm25    = Math.round(pm25Values.reduce((a, b) => a + b, 0) / pm25Values.length)
-  const maxPm25    = Math.max(...pm25Values)
-  const minPm25    = Math.min(...pm25Values)
-  const sedangCount= history.filter(r => r.status === 'Sedang').length
+  const pm25Values = dataList.map(r => r.pm25)
+  const avgPm25    = pm25Values.length > 0 ? Math.round(pm25Values.reduce((a, b) => a + b, 0) / pm25Values.length) : 0
+  const maxPm25    = pm25Values.length > 0 ? Math.max(...pm25Values) : 0
+  const minPm25    = pm25Values.length > 0 ? Math.min(...pm25Values) : 0
+  const sedangCount= dataList.filter(r => r.status === 'Sedang').length
 
   // Export CSV
   const handleExport = () => {
@@ -106,7 +118,7 @@ export default function RiwayatPage() {
         </div>
         <div className="hist-chart-wrap">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={dailySummary} margin={{ top: 8, right: 16, left: 4, bottom: 0 }}>
+            <LineChart data={dailyData} margin={{ top: 8, right: 16, left: 4, bottom: 0 }}>
               <CartesianGrid stroke="#1e3152" strokeDasharray="4 6" vertical={false} />
               <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#6b82a0', fontSize: 11 }} dy={8} />
               <YAxis
