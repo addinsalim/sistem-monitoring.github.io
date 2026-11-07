@@ -11,7 +11,7 @@ export default function PengaturanPage() {
     lokasi: 'Area Parkir STIKOM El Rahma Bogor',
     interval: '10',
     mode: 'simulasi',
-    apiUrl: 'http://localhost:5000/api/telemetry',
+    apiUrl: 'http://localhost/stikom-air-quality-frontend/api',
     ssid: 'WIFI-KAMPUS-ELRAHMA',
   })
 
@@ -45,7 +45,7 @@ export default function PengaturanPage() {
       lokasi: 'Area Parkir STIKOM El Rahma Bogor',
       interval: '10',
       mode: 'simulasi',
-      apiUrl: 'http://localhost:5000/api/telemetry',
+      apiUrl: 'http://localhost/stikom-air-quality-frontend/api',
       ssid: 'WIFI-KAMPUS-ELRAHMA',
     }
     setConfig(defaultConfig)
