@@ -185,7 +185,7 @@ export function ParamPanel({ telemetry }) {
 }
 
 /* ─── System Status Panel ─── */
-export const sysIcons = [Wifi, RadioTower, Cpu, Zap]
+export const sysIcons = [Wifi, RadioTower, Flame, Cpu, Zap]
 export const sysTones = { Terhubung: 'green', Aktif: 'blue', Normal: 'green' }
 
 export function SystemPanel() {

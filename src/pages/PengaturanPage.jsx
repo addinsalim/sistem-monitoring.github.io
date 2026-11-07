@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { Cpu, ShieldCheck, Info, Save, RotateCcw, CheckCircle2 } from 'lucide-react'
+import {
+  Cpu, ShieldCheck, Info, Save, RotateCcw, CheckCircle2,
+  Wifi, RadioTower, Flame, Zap
+} from 'lucide-react'
 import SectionTitle from '../components/SectionTitle'
 import StatusBadge from '../components/StatusBadge'
-import { sysIcons, sysTones } from '../components/Panels'
+import { sysTones } from '../components/Panels'
 import { systemStatus } from '../data/mockData'
+
+// Map icon yang aman berdasarkan nama sistem
+const sysIconMap = {
+  'Koneksi Jaringan': Wifi,
+  'Koneksi Internet': Wifi,
+  'Sensor Sharp GP2Y': RadioTower,
+  'Sensor MQ-2 & DHT': Flame,
+  'Mikrokontroler ESP32': Cpu,
+  'ESP32': Cpu,
+  'Catu Daya Listrik': Zap,
+  'Daya Listrik': Zap,
+}
 
 export default function PengaturanPage() {
   const [config, setConfig] = useState({
@@ -21,9 +36,12 @@ export default function PengaturanPage() {
     const saved = localStorage.getItem('airwatch_config')
     if (saved) {
       try {
-        setConfig(JSON.parse(saved))
+        const parsed = JSON.parse(saved)
+        if (parsed && typeof parsed === 'object') {
+          setConfig(prev => ({ ...prev, ...parsed }))
+        }
       } catch (e) {
-        console.error(e)
+        console.warn('Gagal membaca konfigurasi tersimpan:', e)
       }
     }
   }, [])
@@ -85,7 +103,7 @@ export default function PengaturanPage() {
               </label>
               <input
                 type="text"
-                value={config.deviceId}
+                value={config.deviceId ?? ''}
                 onChange={e => handleChange('deviceId', e.target.value)}
                 style={{
                   width: '100%',
@@ -105,7 +123,7 @@ export default function PengaturanPage() {
               </label>
               <input
                 type="text"
-                value={config.lokasi}
+                value={config.lokasi ?? ''}
                 onChange={e => handleChange('lokasi', e.target.value)}
                 style={{
                   width: '100%',
@@ -124,7 +142,7 @@ export default function PengaturanPage() {
                 Interval Sampling Data
               </label>
               <select
-                value={config.interval}
+                value={config.interval ?? '10'}
                 onChange={e => handleChange('interval', e.target.value)}
                 style={{
                   width: '100%',
@@ -136,11 +154,11 @@ export default function PengaturanPage() {
                   fontSize: 12
                 }}
               >
-                <option value="3">3 Detik (Demo Cepat)</option>
-                <option value="5">5 Detik</option>
-                <option value="10">10 Detik (Standar ESP32)</option>
-                <option value="30">30 Detik (Hemat Daya)</option>
-                <option value="60">1 Menit</option>
+                <option value="3" style={{ background: '#0d1a2d', color: '#e8f2ff' }}>3 Detik (Demo Cepat)</option>
+                <option value="5" style={{ background: '#0d1a2d', color: '#e8f2ff' }}>5 Detik</option>
+                <option value="10" style={{ background: '#0d1a2d', color: '#e8f2ff' }}>10 Detik (Standar ESP32)</option>
+                <option value="30" style={{ background: '#0d1a2d', color: '#e8f2ff' }}>30 Detik (Hemat Daya)</option>
+                <option value="60" style={{ background: '#0d1a2d', color: '#e8f2ff' }}>1 Menit</option>
               </select>
             </div>
 
@@ -149,7 +167,7 @@ export default function PengaturanPage() {
                 Mode Sumber Data
               </label>
               <select
-                value={config.mode}
+                value={config.mode ?? 'simulasi'}
                 onChange={e => handleChange('mode', e.target.value)}
                 style={{
                   width: '100%',
@@ -161,8 +179,8 @@ export default function PengaturanPage() {
                   fontSize: 12
                 }}
               >
-                <option value="simulasi">Simulasi Mock (Frontend Demo)</option>
-                <option value="api">Live REST API / WebSocket Backend</option>
+                <option value="simulasi" style={{ background: '#0d1a2d', color: '#e8f2ff' }}>Simulasi Mock (Frontend Demo)</option>
+                <option value="api" style={{ background: '#0d1a2d', color: '#e8f2ff' }}>Live REST API / WebSocket Backend</option>
               </select>
             </div>
 
@@ -172,7 +190,7 @@ export default function PengaturanPage() {
               </label>
               <input
                 type="text"
-                value={config.apiUrl}
+                value={config.apiUrl ?? ''}
                 onChange={e => handleChange('apiUrl', e.target.value)}
                 style={{
                   width: '100%',
@@ -224,15 +242,16 @@ export default function PengaturanPage() {
             </h2>
           </div>
           <div className="system-list">
-            {systemStatus.map((s, i) => {
-              const Icon = sysIcons[i]
+            {systemStatus.map((s) => {
+              const Icon = sysIconMap[s.label] || Zap
+              const tone = s.tone || sysTones[s.status] || 'green'
               return (
                 <div className="system-row" key={s.label}>
                   <div className="system-left">
                     <div className="sys-ico"><Icon size={14} /></div>
                     <span>{s.label}</span>
                   </div>
-                  <StatusBadge label={s.status} tone={sysTones[s.status] || 'green'} />
+                  <StatusBadge label={s.status} tone={tone} />
                 </div>
               )
             })}
@@ -267,4 +286,3 @@ export default function PengaturanPage() {
     </div>
   )
 }
-

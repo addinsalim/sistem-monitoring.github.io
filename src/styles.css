@@ -398,3 +398,53 @@ tbody tr:hover{background:#13233a}
   .sic-header{flex-wrap:wrap}
   .sic-badge{margin-left:0}
 }
+
+/* ═══════════════════════════════════════
+   Print Styles (Cetak Laporan / PDF)
+═══════════════════════════════════════ */
+@media print {
+  body, .app-shell, .main-area {
+    background: #fff !important;
+    color: #111 !important;
+  }
+  .sidebar, .topbar, .app-footer, .mobile-scrim,
+  .table-tools, .pagination, .filter-chips, .export-toast,
+  .row-detail-btn, .disclaimer, .primary-button {
+    display: none !important;
+  }
+  .main-area {
+    margin-left: 0 !important;
+  }
+  .page-content {
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .panel {
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    color: #111 !important;
+    page-break-inside: avoid;
+  }
+  .panel-heading h2, .section-h1, .hist-stat-value, .raw-number {
+    color: #000 !important;
+  }
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+  th, td {
+    border: 1px solid #ddd !important;
+    color: #222 !important;
+    padding: 8px 10px !important;
+  }
+  th {
+    background: #f1f5f9 !important;
+  }
+  .status-badge {
+    border: 1px solid #888 !important;
+    background: transparent !important;
+    color: #000 !important;
+  }
+}
