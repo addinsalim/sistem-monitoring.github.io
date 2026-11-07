@@ -29,7 +29,10 @@ export default function App() {
          page === 'Info Sensor & Sistem'  ? <InfoSensorPage />   :
          <PengaturanPage />}
         <footer className="app-footer">
-          <span>AirWatch <b>·</b> STIKOM El Rahma Bogor</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <img src="/logo-stikom.png" alt="STIKOM" style={{ width: 15, height: 15, objectFit: 'contain' }} />
+            <span>AirWatch <b>·</b> STIKOM El Rahma Bogor</span>
+          </span>
           <span>Bersih Udara, Sehat Bersama <i /></span>
         </footer>
       </main>

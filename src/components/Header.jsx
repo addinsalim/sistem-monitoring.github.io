@@ -22,6 +22,11 @@ export default function Header({ setMobileOpen }) {
         >
           <Menu size={20} />
         </button>
+        <img
+          src="/logo-stikom.png"
+          alt="Logo STIKOM El Rahma"
+          style={{ width: 32, height: 32, objectFit: 'contain', flexShrink: 0 }}
+        />
         <div className="topbar-title">
           <div className="topbar-main-title">Sistem Monitoring Kualitas Udara</div>
           <span>Area Parkir STIKOM El Rahma Bogor</span>

@@ -25,7 +25,9 @@ export default function Sidebar({ page, setPage, mobileOpen, setMobileOpen }) {
       )}
       <aside className={`sidebar ${mobileOpen ? 'sidebar-open' : ''}`}>
         <div className="brand">
-          <div className="brand-mark"><Wind size={20} /></div>
+          <div className="brand-mark" style={{ background: 'transparent', boxShadow: 'none' }}>
+            <img src="/logo-stikom.png" alt="Logo STIKOM El Rahma" style={{ width: 38, height: 38, objectFit: 'contain' }} />
+          </div>
           <div>
             <strong>Air Watch<span>•</span></strong>
             <small>STIKOM El Rahma</small>
@@ -57,7 +59,9 @@ export default function Sidebar({ page, setPage, mobileOpen, setMobileOpen }) {
         <div className="sidebar-spacer" />
 
         <div className="sidebar-bottom-brand">
-          <div className="bottom-brand-icon"><Wind size={17} /></div>
+          <div className="bottom-brand-icon" style={{ background: '#0a172a' }}>
+            <img src="/logo-stikom.png" alt="STIKOM" style={{ width: 22, height: 22, objectFit: 'contain' }} />
+          </div>
           <div>
             <b>STIKOM El Rahma</b>
             <span>Bersih Udara, Sehat Bersama</span>

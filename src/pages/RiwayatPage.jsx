@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {
   Activity, AlertTriangle, CalendarDays, ChevronDown,
   ChevronRight, Download, Gauge, Info, Search,
-  SlidersHorizontal, Wind, X, CheckCircle2
+  SlidersHorizontal, Wind, X, CheckCircle2, Printer
 } from 'lucide-react'
 import {
   LineChart, Line, CartesianGrid, ResponsiveContainer,
@@ -87,9 +87,19 @@ export default function RiwayatPage() {
         title="Riwayat Data"
         description="Telusuri dan analisis rekaman sensor kualitas udara area parkir."
         action={
-          <button className="primary-button" onClick={handleExport}>
-            <Download size={15} /> Export CSV
-          </button>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button
+              className="primary-button"
+              onClick={() => window.print()}
+              style={{ background: '#0e233d', borderColor: '#1d436b' }}
+              title="Cetak atau simpan sebagai dokumen PDF"
+            >
+              <Printer size={15} /> Cetak Laporan
+            </button>
+            <button className="primary-button" onClick={handleExport}>
+              <Download size={15} /> Export CSV
+            </button>
+          </div>
         }
       />
 
