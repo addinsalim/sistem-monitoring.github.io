@@ -1,77 +1,145 @@
-// Data simulasi untuk review UI. Bukan pembacaan sensor nyata.
+// Data simulasi dinamis tersinkronisasi dengan waktu nyata dunia nyata.
 
-export const chartData = [
-  { time: '00:00', pm25: 15, asapRokok: 5,  asapKendaraan: 8  },
-  { time: '03:00', pm25: 12, asapRokok: 4,  asapKendaraan: 6  },
-  { time: '06:00', pm25: 18, asapRokok: 6,  asapKendaraan: 10 },
-  { time: '09:00', pm25: 28, asapRokok: 8,  asapKendaraan: 15 },
-  { time: '12:00', pm25: 38, asapRokok: 10, asapKendaraan: 20 },
-  { time: '15:00', pm25: 55, asapRokok: 14, asapKendaraan: 28 },
-  { time: '18:00', pm25: 40, asapRokok: 10, asapKendaraan: 22 },
-  { time: '21:00', pm25: 18, asapRokok: 7,  asapKendaraan: 12 },
-]
+// Helper tanggal relatif berdasarkan jam & tanggal sistem lokal
+function getRelativeDate(daysAgo = 0) {
+  const d = new Date()
+  d.setDate(d.getDate() - daysAgo)
+  return d
+}
 
-// ─── History (35+ rekaman simulasi — 7 hari) ───
-export const history = [
-  // 1 Nov 2025
-  { date: '01 Nov 2025', time: '01 Nov 2025 · 07:00', pm25: 14, asapRokok: 4,  asapKendaraan: 7,  suhu: 27, kelembapan: 68, status: 'Baik'   },
-  { date: '01 Nov 2025', time: '01 Nov 2025 · 09:30', pm25: 25, asapRokok: 7,  asapKendaraan: 13, suhu: 29, kelembapan: 64, status: 'Baik'   },
-  { date: '01 Nov 2025', time: '01 Nov 2025 · 12:00', pm25: 42, asapRokok: 11, asapKendaraan: 21, suhu: 33, kelembapan: 58, status: 'Sedang' },
-  { date: '01 Nov 2025', time: '01 Nov 2025 · 14:30', pm25: 37, asapRokok: 9,  asapKendaraan: 19, suhu: 32, kelembapan: 60, status: 'Baik'   },
-  { date: '01 Nov 2025', time: '01 Nov 2025 · 17:00', pm25: 58, asapRokok: 15, asapKendaraan: 30, suhu: 30, kelembapan: 63, status: 'Sedang' },
-  { date: '01 Nov 2025', time: '01 Nov 2025 · 19:30', pm25: 22, asapRokok: 6,  asapKendaraan: 11, suhu: 28, kelembapan: 70, status: 'Baik'   },
-  // 31 Okt 2025
-  { date: '31 Okt 2025', time: '31 Okt 2025 · 08:00', pm25: 18, asapRokok: 5,  asapKendaraan: 9,  suhu: 28, kelembapan: 67, status: 'Baik'   },
-  { date: '31 Okt 2025', time: '31 Okt 2025 · 10:30', pm25: 31, asapRokok: 8,  asapKendaraan: 16, suhu: 30, kelembapan: 62, status: 'Baik'   },
-  { date: '31 Okt 2025', time: '31 Okt 2025 · 13:00', pm25: 47, asapRokok: 12, asapKendaraan: 24, suhu: 34, kelembapan: 55, status: 'Sedang' },
-  { date: '31 Okt 2025', time: '31 Okt 2025 · 15:30', pm25: 35, asapRokok: 9,  asapKendaraan: 18, suhu: 32, kelembapan: 59, status: 'Baik'   },
-  { date: '31 Okt 2025', time: '31 Okt 2025 · 18:00', pm25: 20, asapRokok: 6,  asapKendaraan: 10, suhu: 29, kelembapan: 65, status: 'Baik'   },
-  // 30 Okt 2025
-  { date: '30 Okt 2025', time: '30 Okt 2025 · 07:30', pm25: 16, asapRokok: 4,  asapKendaraan: 8,  suhu: 27, kelembapan: 69, status: 'Baik'   },
-  { date: '30 Okt 2025', time: '30 Okt 2025 · 10:00', pm25: 29, asapRokok: 8,  asapKendaraan: 14, suhu: 31, kelembapan: 61, status: 'Baik'   },
-  { date: '30 Okt 2025', time: '30 Okt 2025 · 12:30', pm25: 52, asapRokok: 13, asapKendaraan: 26, suhu: 34, kelembapan: 54, status: 'Sedang' },
-  { date: '30 Okt 2025', time: '30 Okt 2025 · 15:00', pm25: 39, asapRokok: 10, asapKendaraan: 20, suhu: 32, kelembapan: 58, status: 'Baik'   },
-  { date: '30 Okt 2025', time: '30 Okt 2025 · 17:30', pm25: 61, asapRokok: 16, asapKendaraan: 32, suhu: 30, kelembapan: 62, status: 'Sedang' },
-  // 29 Okt 2025
-  { date: '29 Okt 2025', time: '29 Okt 2025 · 07:00', pm25: 13, asapRokok: 4,  asapKendaraan: 7,  suhu: 26, kelembapan: 71, status: 'Baik'   },
-  { date: '29 Okt 2025', time: '29 Okt 2025 · 09:30', pm25: 24, asapRokok: 7,  asapKendaraan: 12, suhu: 29, kelembapan: 64, status: 'Baik'   },
-  { date: '29 Okt 2025', time: '29 Okt 2025 · 12:00', pm25: 44, asapRokok: 11, asapKendaraan: 22, suhu: 33, kelembapan: 56, status: 'Sedang' },
-  { date: '29 Okt 2025', time: '29 Okt 2025 · 14:30', pm25: 33, asapRokok: 9,  asapKendaraan: 17, suhu: 31, kelembapan: 60, status: 'Baik'   },
-  { date: '29 Okt 2025', time: '29 Okt 2025 · 17:00', pm25: 19, asapRokok: 5,  asapKendaraan: 10, suhu: 28, kelembapan: 67, status: 'Baik'   },
-  // 28 Okt 2025
-  { date: '28 Okt 2025', time: '28 Okt 2025 · 08:00', pm25: 21, asapRokok: 6,  asapKendaraan: 11, suhu: 28, kelembapan: 66, status: 'Baik'   },
-  { date: '28 Okt 2025', time: '28 Okt 2025 · 10:30', pm25: 36, asapRokok: 9,  asapKendaraan: 18, suhu: 31, kelembapan: 60, status: 'Baik'   },
-  { date: '28 Okt 2025', time: '28 Okt 2025 · 13:00', pm25: 55, asapRokok: 14, asapKendaraan: 28, suhu: 35, kelembapan: 53, status: 'Sedang' },
-  { date: '28 Okt 2025', time: '28 Okt 2025 · 15:30', pm25: 41, asapRokok: 10, asapKendaraan: 21, suhu: 32, kelembapan: 57, status: 'Sedang' },
-  { date: '28 Okt 2025', time: '28 Okt 2025 · 18:00', pm25: 17, asapRokok: 5,  asapKendaraan: 9,  suhu: 29, kelembapan: 64, status: 'Baik'   },
-  // 27 Okt 2025
-  { date: '27 Okt 2025', time: '27 Okt 2025 · 07:30', pm25: 12, asapRokok: 3,  asapKendaraan: 6,  suhu: 27, kelembapan: 70, status: 'Baik'   },
-  { date: '27 Okt 2025', time: '27 Okt 2025 · 10:00', pm25: 23, asapRokok: 7,  asapKendaraan: 12, suhu: 30, kelembapan: 63, status: 'Baik'   },
-  { date: '27 Okt 2025', time: '27 Okt 2025 · 12:30', pm25: 48, asapRokok: 12, asapKendaraan: 24, suhu: 33, kelembapan: 56, status: 'Sedang' },
-  { date: '27 Okt 2025', time: '27 Okt 2025 · 15:00', pm25: 38, asapRokok: 10, asapKendaraan: 19, suhu: 31, kelembapan: 59, status: 'Baik'   },
-  { date: '27 Okt 2025', time: '27 Okt 2025 · 17:30', pm25: 16, asapRokok: 5,  asapKendaraan: 8,  suhu: 28, kelembapan: 66, status: 'Baik'   },
-  // 26 Okt 2025
-  { date: '26 Okt 2025', time: '26 Okt 2025 · 07:00', pm25: 15, asapRokok: 4,  asapKendaraan: 8,  suhu: 27, kelembapan: 68, status: 'Baik'   },
-  { date: '26 Okt 2025', time: '26 Okt 2025 · 11:00', pm25: 27, asapRokok: 8,  asapKendaraan: 14, suhu: 30, kelembapan: 62, status: 'Baik'   },
-  { date: '26 Okt 2025', time: '26 Okt 2025 · 14:00', pm25: 43, asapRokok: 11, asapKendaraan: 22, suhu: 33, kelembapan: 56, status: 'Sedang' },
-  { date: '26 Okt 2025', time: '26 Okt 2025 · 17:00', pm25: 30, asapRokok: 8,  asapKendaraan: 15, suhu: 31, kelembapan: 61, status: 'Baik'   },
-]
+function formatDateID(d) {
+  return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
+}
 
-// ─── Daily summary untuk chart tren riwayat ───
-export const dailySummary = [
-  { date: '26 Okt', pm25Avg: 29, asapRokokAvg: 8,  asapKendaraanAvg: 15, maxPm25: 43 },
-  { date: '27 Okt', pm25Avg: 27, asapRokokAvg: 7,  asapKendaraanAvg: 14, maxPm25: 48 },
-  { date: '28 Okt', pm25Avg: 34, asapRokokAvg: 9,  asapKendaraanAvg: 17, maxPm25: 55 },
-  { date: '29 Okt', pm25Avg: 27, asapRokokAvg: 7,  asapKendaraanAvg: 14, maxPm25: 44 },
-  { date: '30 Okt', pm25Avg: 39, asapRokokAvg: 10, asapKendaraanAvg: 20, maxPm25: 61 },
-  { date: '31 Okt', pm25Avg: 30, asapRokokAvg: 8,  asapKendaraanAvg: 15, maxPm25: 47 },
-  { date: '01 Nov', pm25Avg: 33, asapRokokAvg: 9,  asapKendaraanAvg: 17, maxPm25: 58 },
-]
+function formatDayMonthID(d) {
+  return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })
+}
+
+// ─── Chart Data 24 Jam Terakhir (8 interval 3 jam sampai jam sekarang) ───
+export const getDynamicChartData = () => {
+  const data = []
+  const now = new Date()
+  const currentHour = now.getHours()
+
+  for (let i = 7; i >= 0; i--) {
+    let targetHour = currentHour - (i * 3)
+    let displayHour = (targetHour % 24 + 24) % 24
+    const hourStr = String(displayHour).padStart(2, '0') + ':00'
+
+    // Pola simulasi realistis: polutan lebih tinggi pada siang hari (11:00 - 15:00) saat parkir ramai
+    const isPeak = displayHour >= 11 && displayHour <= 16
+    const isMorningPeak = displayHour >= 7 && displayHour <= 9
+    const factor = isPeak ? 1.6 : (isMorningPeak ? 1.2 : 0.8)
+
+    const pm25 = Math.round(25 * factor + (Math.sin(displayHour) * 6))
+    const asapRokok = Math.round(7 * factor + (Math.cos(displayHour) * 2))
+    const asapKendaraan = Math.round(13 * factor + (Math.sin(displayHour * 1.5) * 3))
+
+    data.push({
+      time: hourStr,
+      pm25: Math.max(10, pm25),
+      asapRokok: Math.max(3, asapRokok),
+      asapKendaraan: Math.max(5, asapKendaraan),
+    })
+  }
+  return data
+}
+
+export const chartData = getDynamicChartData()
+
+// ─── Riwayat Dinamis (7 Hari Terakhir sampai Hari Ini) ───
+export const getDynamicHistory = () => {
+  const records = []
+  const timeSlots = [
+    { time: '07:30', pmBase: 15, rBase: 4,  kBase: 7,  suhu: 27, rh: 69, status: 'Baik' },
+    { time: '09:30', pmBase: 28, rBase: 8,  kBase: 14, suhu: 29, rh: 64, status: 'Baik' },
+    { time: '12:00', pmBase: 48, rBase: 12, kBase: 24, suhu: 33, rh: 57, status: 'Sedang' },
+    { time: '14:30', pmBase: 36, rBase: 9,  kBase: 18, suhu: 32, rh: 59, status: 'Baik' },
+    { time: '17:00', pmBase: 56, rBase: 15, kBase: 29, suhu: 30, rh: 63, status: 'Sedang' },
+    { time: '19:30', pmBase: 20, rBase: 5,  kBase: 10, suhu: 28, rh: 68, status: 'Baik' },
+  ]
+
+  // Dari hari ini (day 0) mundur sampai 6 hari yang lalu
+  for (let day = 0; day <= 6; day++) {
+    const d = getRelativeDate(day)
+    const dateFormatted = formatDateID(d)
+
+    timeSlots.forEach((slot, index) => {
+      // Sedikit variasi acak deterministik per hari
+      const variation = Math.sin(day * 2 + index) * 5
+      const pm25 = Math.max(10, Math.round(slot.pmBase + variation))
+      const asapRokok = Math.max(2, Math.round(slot.rBase + variation * 0.3))
+      const asapKendaraan = Math.max(4, Math.round(slot.kBase + variation * 0.5))
+      const status = pm25 > 55 ? 'Sedang' : (pm25 > 35 ? 'Sedang' : 'Baik')
+
+      records.push({
+        date: dateFormatted,
+        time: `${dateFormatted} · ${slot.time}`,
+        pm25,
+        asapRokok,
+        asapKendaraan,
+        suhu: slot.suhu,
+        kelembapan: slot.rh,
+        status,
+      })
+    })
+  }
+
+  return records
+}
+
+export const history = getDynamicHistory()
+
+// ─── Daily Summary Dinamis (7 Hari Terakhir) ───
+export const getDynamicDailySummary = () => {
+  const days = []
+  for (let day = 6; day >= 0; day--) {
+    const d = getRelativeDate(day)
+    const variation = Math.sin(day * 1.5) * 6
+    const pm25Avg = Math.round(30 + variation)
+    const asapRokokAvg = Math.round(8 + variation * 0.25)
+    const asapKendaraanAvg = Math.round(16 + variation * 0.45)
+    const maxPm25 = Math.round(pm25Avg + 15 + Math.abs(variation))
+
+    days.push({
+      date: formatDayMonthID(d),
+      pm25Avg,
+      asapRokokAvg,
+      asapKendaraanAvg,
+      maxPm25,
+    })
+  }
+  return days
+}
+
+export const dailySummary = getDynamicDailySummary()
+
+// ─── Notifikasi Waktu Realistis ───
+const nowTime = new Date()
+const formatNotifTime = (minutesAgo) => {
+  const d = new Date(Date.now() - minutesAgo * 60 * 1000)
+  return d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+}
 
 export const notifications = [
-  { type: 'success', title: 'Kondisi udara normal',          desc: 'Semua parameter dalam batas aman.',                                                  time: '14:20' },
-  { type: 'warning', title: 'Peningkatan PM2.5 terdeteksi', desc: 'Nilai PM2.5 meningkat menjadi 45 μg/m³ (masih dalam batas aman).',                    time: '11:15' },
-  { type: 'info',    title: 'Sistem aktif',                  desc: 'Monitoring berjalan normal.',                                                          time: '08:00' },
+  {
+    type: 'success',
+    title: 'Kondisi udara normal',
+    desc: 'Semua parameter kualitas udara di area parkir dalam batas aman.',
+    time: formatNotifTime(15),
+  },
+  {
+    type: 'warning',
+    title: 'Peningkatan PM2.5 terdeteksi',
+    desc: 'Nilai PM2.5 meningkat sementara menjadi 45 μg/m³ saat jam sibuk.',
+    time: formatNotifTime(120),
+  },
+  {
+    type: 'info',
+    title: 'Sistem monitoring aktif',
+    desc: 'Monitoring telemetri sensor berjalan lancar dan terhubung.',
+    time: formatNotifTime(360),
+  },
 ]
 
 export const parameters = [
@@ -83,8 +151,9 @@ export const parameters = [
 ]
 
 export const systemStatus = [
-  { label: 'Koneksi Internet',  status: 'Terhubung', tone: 'green' },
+  { label: 'Koneksi Jaringan',  status: 'Terhubung', tone: 'green' },
   { label: 'Sensor Sharp GP2Y', status: 'Terhubung', tone: 'green' },
-  { label: 'ESP32',             status: 'Aktif',     tone: 'blue'  },
-  { label: 'Daya Listrik',      status: 'Normal',    tone: 'green' },
+  { label: 'Sensor MQ-2 & DHT', status: 'Terhubung', tone: 'green' },
+  { label: 'Mikrokontroler ESP32', status: 'Aktif',  tone: 'blue'  },
+  { label: 'Catu Daya Listrik', status: 'Normal',    tone: 'green' },
 ]

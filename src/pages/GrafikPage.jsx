@@ -20,33 +20,29 @@ export default function GrafikPage() {
     asapKendaraan: { baik: 20,  sedang: 45  },
   })
 
-  // Data grafik per-jam (24 jam)
-  const hourlyData = [
-    { time: '00:00', pm25: 12, asapRokok: 4,  asapKendaraan: 6  },
-    { time: '01:00', pm25: 10, asapRokok: 3,  asapKendaraan: 5  },
-    { time: '02:00', pm25: 9,  asapRokok: 3,  asapKendaraan: 4  },
-    { time: '03:00', pm25: 11, asapRokok: 3,  asapKendaraan: 5  },
-    { time: '04:00', pm25: 13, asapRokok: 4,  asapKendaraan: 6  },
-    { time: '05:00', pm25: 16, asapRokok: 5,  asapKendaraan: 8  },
-    { time: '06:00', pm25: 20, asapRokok: 6,  asapKendaraan: 10 },
-    { time: '07:00', pm25: 29, asapRokok: 8,  asapKendaraan: 14 },
-    { time: '08:00', pm25: 38, asapRokok: 10, asapKendaraan: 19 },
-    { time: '09:00', pm25: 45, asapRokok: 12, asapKendaraan: 23 },
-    { time: '10:00', pm25: 42, asapRokok: 11, asapKendaraan: 21 },
-    { time: '11:00', pm25: 50, asapRokok: 13, asapKendaraan: 26 },
-    { time: '12:00', pm25: 58, asapRokok: 15, asapKendaraan: 30 },
-    { time: '13:00', pm25: 62, asapRokok: 16, asapKendaraan: 33 },
-    { time: '14:00', pm25: 55, asapRokok: 14, asapKendaraan: 28 },
-    { time: '15:00', pm25: 48, asapRokok: 12, asapKendaraan: 24 },
-    { time: '16:00', pm25: 53, asapRokok: 14, asapKendaraan: 27 },
-    { time: '17:00', pm25: 60, asapRokok: 15, asapKendaraan: 31 },
-    { time: '18:00', pm25: 44, asapRokok: 11, asapKendaraan: 22 },
-    { time: '19:00', pm25: 33, asapRokok: 9,  asapKendaraan: 16 },
-    { time: '20:00', pm25: 25, asapRokok: 7,  asapKendaraan: 12 },
-    { time: '21:00', pm25: 20, asapRokok: 6,  asapKendaraan: 10 },
-    { time: '22:00', pm25: 16, asapRokok: 5,  asapKendaraan: 8  },
-    { time: '23:00', pm25: 13, asapRokok: 4,  asapKendaraan: 7  },
-  ]
+  // Data grafik 24 jam terakhir yang dinamis mengikuti jam saat ini
+  const generateHourlyData = () => {
+    const data = []
+    const now = new Date()
+    const currentHour = now.getHours()
+
+    for (let i = 23; i >= 0; i--) {
+      const h = ((currentHour - i) % 24 + 24) % 24
+      const timeStr = String(h).padStart(2, '0') + ':00'
+      const isPeak = h >= 11 && h <= 16
+      const isMorning = h >= 7 && h <= 9
+      const factor = isPeak ? 1.6 : (isMorning ? 1.25 : 0.8)
+
+      const pm25 = Math.max(8, Math.round(24 * factor + Math.sin(h * 0.8) * 8))
+      const asapRokok = Math.max(2, Math.round(7 * factor + Math.cos(h * 0.8) * 3))
+      const asapKendaraan = Math.max(4, Math.round(13 * factor + Math.sin(h * 1.2) * 5))
+
+      data.push({ time: timeStr, pm25, asapRokok, asapKendaraan })
+    }
+    return data
+  }
+
+  const hourlyData = generateHourlyData()
 
   // Data bar chart per-hari (7 hari)
   const dailyBar = dailySummary

@@ -7,17 +7,25 @@ import {
 import SectionTitle from '../components/SectionTitle'
 import { QualityCard, MetricSensorCard } from '../components/SensorCards'
 
+const getInitialLiveStream = () => {
+  const points = []
+  const now = Date.now()
+  for (let i = 6; i >= 0; i--) {
+    const timestamp = new Date(now - i * 3000)
+    const timeStr = timestamp.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    const variation = Math.sin((now - i * 3000) / 5000) * 5
+    points.push({
+      time: timeStr,
+      pm25: Math.max(10, Math.round(18 + variation)),
+      asapRokok: Math.max(3, Math.round(7 + variation * 0.4)),
+      asapKendaraan: Math.max(5, Math.round(12 + variation * 0.6)),
+    })
+  }
+  return points
+}
+
 export default function RealtimePage() {
-  const [tick, setTick] = useState(0)
-  const [streamData, setStreamData] = useState([
-    { time: '15:58:30', pm25: 18, asapRokok: 7,  asapKendaraan: 12 },
-    { time: '15:58:45', pm25: 19, asapRokok: 8,  asapKendaraan: 13 },
-    { time: '15:59:00', pm25: 22, asapRokok: 7,  asapKendaraan: 14 },
-    { time: '15:59:15', pm25: 20, asapRokok: 9,  asapKendaraan: 12 },
-    { time: '15:59:30', pm25: 17, asapRokok: 8,  asapKendaraan: 11 },
-    { time: '15:59:45', pm25: 21, asapRokok: 7,  asapKendaraan: 13 },
-    { time: '16:00:00', pm25: 18, asapRokok: 7,  asapKendaraan: 12 },
-  ])
+  const [streamData, setStreamData] = useState(getInitialLiveStream)
 
   useEffect(() => {
     const id = setInterval(() => {

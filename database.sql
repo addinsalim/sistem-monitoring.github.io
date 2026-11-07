@@ -95,39 +95,39 @@ VALUES
 ('warning', 'Peningkatan PM2.5 terdeteksi', 'Nilai PM2.5 sempat meningkat menjadi 45 μg/m³ (masih dalam batas aman).', NOW() - INTERVAL 4 HOUR),
 ('info', 'Sistem monitoring aktif', 'Sensor Sharp GP2Y, MQ-2, DHT22, dan ESP32 berjalan normal.', NOW() - INTERVAL 8 HOUR);
 
--- Data Riwayat Sensor (Simulasi Riwayat 7 Hari)
+-- Data Riwayat Sensor (Dinamis Relatif Terhadap Waktu Saat Ini)
 INSERT INTO `sensor_readings` (`device_id`, `pm25`, `asap_rokok`, `asap_kendaraan`, `suhu`, `kelembapan`, `status`, `created_at`)
 VALUES
-('parkir-esp32-01', 14.0, 4.0, 7.0, 27.0, 68.0, 'Baik',   '2026-11-01 07:00:00'),
-('parkir-esp32-01', 25.0, 7.0, 13.0, 29.0, 64.0, 'Baik',  '2026-11-01 09:30:00'),
-('parkir-esp32-01', 42.0, 11.0, 21.0, 33.0, 58.0, 'Sedang','2026-11-01 12:00:00'),
-('parkir-esp32-01', 37.0, 9.0, 19.0, 32.0, 60.0, 'Baik',  '2026-11-01 14:30:00'),
-('parkir-esp32-01', 58.0, 15.0, 30.0, 30.0, 63.0, 'Sedang','2026-11-01 17:00:00'),
-('parkir-esp32-01', 22.0, 6.0, 11.0, 28.0, 70.0, 'Baik',  '2026-11-01 19:30:00'),
+('parkir-esp32-01', 18.0, 7.0, 12.0, 28.0, 65.0, 'Baik',   NOW() - INTERVAL 10 MINUTE),
+('parkir-esp32-01', 25.0, 8.0, 14.0, 29.0, 63.0, 'Baik',   NOW() - INTERVAL 2 HOUR),
+('parkir-esp32-01', 42.0, 11.0, 21.0, 33.0, 58.0, 'Sedang', NOW() - INTERVAL 4 HOUR),
+('parkir-esp32-01', 37.0, 9.0, 19.0, 32.0, 60.0, 'Baik',   NOW() - INTERVAL 6 HOUR),
+('parkir-esp32-01', 58.0, 15.0, 30.0, 30.0, 63.0, 'Sedang', NOW() - INTERVAL 8 HOUR),
 
-('parkir-esp32-01', 18.0, 5.0, 9.0, 28.0, 67.0, 'Baik',   '2026-10-31 08:00:00'),
-('parkir-esp32-01', 31.0, 8.0, 16.0, 30.0, 62.0, 'Baik',  '2026-10-31 10:30:00'),
-('parkir-esp32-01', 47.0, 12.0, 24.0, 34.0, 55.0, 'Sedang','2026-10-31 13:00:00'),
-('parkir-esp32-01', 35.0, 9.0, 18.0, 32.0, 59.0, 'Baik',  '2026-10-31 15:30:00'),
-('parkir-esp32-01', 20.0, 6.0, 10.0, 29.0, 65.0, 'Baik',  '2026-10-31 18:00:00'),
+('parkir-esp32-01', 18.0, 5.0, 9.0, 28.0, 67.0, 'Baik',    NOW() - INTERVAL 1 DAY - INTERVAL 2 HOUR),
+('parkir-esp32-01', 31.0, 8.0, 16.0, 30.0, 62.0, 'Baik',   NOW() - INTERVAL 1 DAY - INTERVAL 4 HOUR),
+('parkir-esp32-01', 47.0, 12.0, 24.0, 34.0, 55.0, 'Sedang', NOW() - INTERVAL 1 DAY - INTERVAL 6 HOUR),
+('parkir-esp32-01', 35.0, 9.0, 18.0, 32.0, 59.0, 'Baik',   NOW() - INTERVAL 1 DAY - INTERVAL 8 HOUR),
 
-('parkir-esp32-01', 16.0, 4.0, 8.0, 27.0, 69.0, 'Baik',   '2026-10-30 07:30:00'),
-('parkir-esp32-01', 29.0, 8.0, 14.0, 31.0, 61.0, 'Baik',  '2026-10-30 10:00:00'),
-('parkir-esp32-01', 52.0, 13.0, 26.0, 34.0, 54.0, 'Sedang','2026-10-30 12:30:00'),
-('parkir-esp32-01', 39.0, 10.0, 20.0, 32.0, 58.0, 'Baik',  '2026-10-30 15:00:00'),
-('parkir-esp32-01', 61.0, 16.0, 32.0, 30.0, 62.0, 'Sedang','2026-10-30 17:30:00'),
+('parkir-esp32-01', 16.0, 4.0, 8.0, 27.0, 69.0, 'Baik',    NOW() - INTERVAL 2 DAY - INTERVAL 2 HOUR),
+('parkir-esp32-01', 29.0, 8.0, 14.0, 31.0, 61.0, 'Baik',   NOW() - INTERVAL 2 DAY - INTERVAL 4 HOUR),
+('parkir-esp32-01', 52.0, 13.0, 26.0, 34.0, 54.0, 'Sedang', NOW() - INTERVAL 2 DAY - INTERVAL 6 HOUR),
+('parkir-esp32-01', 39.0, 10.0, 20.0, 32.0, 58.0, 'Baik',   NOW() - INTERVAL 2 DAY - INTERVAL 8 HOUR),
 
-('parkir-esp32-01', 13.0, 4.0, 7.0, 26.0, 71.0, 'Baik',   '2026-10-29 07:00:00'),
-('parkir-esp32-01', 24.0, 7.0, 12.0, 29.0, 64.0, 'Baik',  '2026-10-29 09:30:00'),
-('parkir-esp32-01', 44.0, 11.0, 22.0, 33.0, 56.0, 'Sedang','2026-10-29 12:00:00'),
-('parkir-esp32-01', 33.0, 9.0, 17.0, 31.0, 60.0, 'Baik',  '2026-10-29 14:30:00'),
-('parkir-esp32-01', 19.0, 5.0, 10.0, 28.0, 67.0, 'Baik',  '2026-10-29 17:00:00'),
+('parkir-esp32-01', 13.0, 4.0, 7.0, 26.0, 71.0, 'Baik',    NOW() - INTERVAL 3 DAY - INTERVAL 2 HOUR),
+('parkir-esp32-01', 24.0, 7.0, 12.0, 29.0, 64.0, 'Baik',   NOW() - INTERVAL 3 DAY - INTERVAL 4 HOUR),
+('parkir-esp32-01', 44.0, 11.0, 22.0, 33.0, 56.0, 'Sedang', NOW() - INTERVAL 3 DAY - INTERVAL 6 HOUR),
+('parkir-esp32-01', 33.0, 9.0, 17.0, 31.0, 60.0, 'Baik',   NOW() - INTERVAL 3 DAY - INTERVAL 8 HOUR),
 
-('parkir-esp32-01', 21.0, 6.0, 11.0, 28.0, 66.0, 'Baik',  '2026-10-28 08:00:00'),
-('parkir-esp32-01', 36.0, 9.0, 18.0, 31.0, 60.0, 'Baik',  '2026-10-28 10:30:00'),
-('parkir-esp32-01', 55.0, 14.0, 28.0, 35.0, 53.0, 'Sedang','2026-10-28 13:00:00'),
-('parkir-esp32-01', 41.0, 10.0, 21.0, 32.0, 57.0, 'Sedang','2026-10-28 15:30:00'),
-('parkir-esp32-01', 17.0, 5.0, 9.0, 29.0, 64.0, 'Baik',   '2026-10-28 18:00:00'),
+('parkir-esp32-01', 21.0, 6.0, 11.0, 28.0, 66.0, 'Baik',    NOW() - INTERVAL 4 DAY - INTERVAL 2 HOUR),
+('parkir-esp32-01', 36.0, 9.0, 18.0, 31.0, 60.0, 'Baik',   NOW() - INTERVAL 4 DAY - INTERVAL 4 HOUR),
+('parkir-esp32-01', 55.0, 14.0, 28.0, 35.0, 53.0, 'Sedang', NOW() - INTERVAL 4 DAY - INTERVAL 6 HOUR),
+('parkir-esp32-01', 41.0, 10.0, 21.0, 32.0, 57.0, 'Sedang', NOW() - INTERVAL 4 DAY - INTERVAL 8 HOUR),
 
-('parkir-esp32-01', 18.0, 7.0, 12.0, 28.0, 65.0, 'Baik',  NOW());
+('parkir-esp32-01', 17.0, 5.0, 9.0, 29.0, 64.0, 'Baik',    NOW() - INTERVAL 5 DAY - INTERVAL 2 HOUR),
+('parkir-esp32-01', 28.0, 7.0, 13.0, 30.0, 62.0, 'Baik',   NOW() - INTERVAL 5 DAY - INTERVAL 5 HOUR),
+('parkir-esp32-01', 49.0, 12.0, 25.0, 33.0, 55.0, 'Sedang', NOW() - INTERVAL 5 DAY - INTERVAL 8 HOUR),
+
+('parkir-esp32-01', 15.0, 4.0, 8.0, 27.0, 68.0, 'Baik',    NOW() - INTERVAL 6 DAY - INTERVAL 2 HOUR),
+('parkir-esp32-01', 32.0, 8.0, 15.0, 31.0, 61.0, 'Baik',   NOW() - INTERVAL 6 DAY - INTERVAL 6 HOUR);
 
