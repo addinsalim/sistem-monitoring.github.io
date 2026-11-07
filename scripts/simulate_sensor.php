@@ -105,3 +105,4 @@ if (isset($_GET['action']) && $_GET['action'] === 'generate') {
   </div>
 </body>
 </html>
+
