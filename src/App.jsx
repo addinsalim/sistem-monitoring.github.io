@@ -22,12 +22,12 @@ export default function App() {
       />
       <main className="main-area">
         <Header setMobileOpen={setMobileOpen} />
-        {page === 'Beranda'               ? <Beranda />          :
-         page === 'Data Real-time'        ? <RealtimePage />     :
-         page === 'Riwayat Data'          ? <RiwayatPage />      :
-         page === 'Grafik Kualitas Udara' ? <GrafikPage />       :
-         page === 'Info Sensor & Sistem'  ? <InfoSensorPage />   :
-         <PengaturanPage />}
+        {page === 'Beranda' ? <Beranda /> :
+          page === 'Data Real-time' ? <RealtimePage /> :
+            page === 'Riwayat Data' ? <RiwayatPage /> :
+              page === 'Grafik Kualitas Udara' ? <GrafikPage /> :
+                page === 'Info Sensor & Sistem' ? <InfoSensorPage /> :
+                  <PengaturanPage />}
         <footer className="app-footer">
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <img src="/logo-stikom.png" alt="STIKOM" style={{ width: 15, height: 15, objectFit: 'contain' }} />
