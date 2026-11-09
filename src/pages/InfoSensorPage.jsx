@@ -4,6 +4,7 @@ import {
   FlaskConical, Flame, Layers, Server, Thermometer, Info
 } from 'lucide-react'
 import SectionTitle from '../components/SectionTitle'
+import logoStikom from '../assets/logo-stikom.png'
 
 export default function InfoSensorPage() {
   const sensors = [
@@ -240,7 +241,7 @@ export default function InfoSensorPage() {
 
       <article className="panel project-info-panel" style={{ padding: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid #1c2e4a' }}>
-          <img src="/logo-stikom.png" alt="Logo STIKOM El Rahma" style={{ width: 60, height: 60, objectFit: 'contain', flexShrink: 0 }} />
+          <img src={logoStikom} alt="Logo STIKOM El Rahma" style={{ width: 60, height: 60, objectFit: 'contain', flexShrink: 0 }} />
           <div>
             <h2 style={{ margin: 0, fontSize: 16, color: '#f1f6ff', fontWeight: 700 }}>STIKOM El Rahma Bogor</h2>
             <p style={{ margin: '4px 0 0', fontSize: 11, color: '#7e96b5' }}>Sistem Monitoring Kualitas Udara Area Parkir Berbasis IoT & Web</p>

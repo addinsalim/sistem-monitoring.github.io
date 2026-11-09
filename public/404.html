@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AirWatch — STIKOM El Rahma</title>
+    <script>
+      // Single Page Application (SPA) redirect untuk GitHub Pages
+      // Mengarahkan kembali ke base URL aplikasi
+      var path = window.location.pathname;
+      var repo = '/sistem-monitoring.github.io';
+      if (path.indexOf(repo) !== -1) {
+        window.location.replace(repo + '/');
+      } else {
+        window.location.replace('/');
+      }
+    </script>
+  </head>
+  <body style="background:#081226;color:#e8f2ff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;">
+    <div style="text-align:center;">
+      <h2 style="color:#38bdf8;">AirWatch STIKOM El Rahma</h2>
+      <p style="color:#94a3b8;">Sedang mengalihkan ke dashboard...</p>
+    </div>
+  </body>
+</html>

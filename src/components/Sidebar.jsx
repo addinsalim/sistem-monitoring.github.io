@@ -3,6 +3,7 @@ import {
   Home, Activity, History as HistoryIcon, BarChart2,
   BookOpen, Settings2, Wind, X
 } from 'lucide-react'
+import logoStikom from '../assets/logo-stikom.png'
 
 export const navItems = [
   { id: 'Beranda',               icon: Home        },
@@ -26,7 +27,7 @@ export default function Sidebar({ page, setPage, mobileOpen, setMobileOpen }) {
       <aside className={`sidebar ${mobileOpen ? 'sidebar-open' : ''}`}>
         <div className="brand">
           <div className="brand-mark" style={{ background: 'transparent', boxShadow: 'none' }}>
-            <img src="/logo-stikom.png" alt="Logo STIKOM El Rahma" style={{ width: 38, height: 38, objectFit: 'contain' }} />
+            <img src={logoStikom} alt="Logo STIKOM El Rahma" style={{ width: 38, height: 38, objectFit: 'contain' }} />
           </div>
           <div>
             <strong>Air Watch<span>•</span></strong>
@@ -60,7 +61,7 @@ export default function Sidebar({ page, setPage, mobileOpen, setMobileOpen }) {
 
         <div className="sidebar-bottom-brand">
           <div className="bottom-brand-icon" style={{ background: '#0a172a' }}>
-            <img src="/logo-stikom.png" alt="STIKOM" style={{ width: 22, height: 22, objectFit: 'contain' }} />
+            <img src={logoStikom} alt="STIKOM" style={{ width: 22, height: 22, objectFit: 'contain' }} />
           </div>
           <div>
             <b>STIKOM El Rahma</b>

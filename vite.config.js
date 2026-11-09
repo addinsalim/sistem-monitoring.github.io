@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/sistem-monitoring.github.io/' : '/',
   plugins: [react()],
   build: {
     chunkSizeWarningLimit: 600,
@@ -14,4 +15,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

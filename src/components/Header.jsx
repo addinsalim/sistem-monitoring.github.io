@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Menu, CalendarDays, Clock3 } from 'lucide-react'
+import logoStikom from '../assets/logo-stikom.png'
 
 export default function Header({ setMobileOpen }) {
   const [now, setNow] = useState(new Date())
@@ -23,7 +24,7 @@ export default function Header({ setMobileOpen }) {
           <Menu size={20} />
         </button>
         <img
-          src="/logo-stikom.png"
+          src={logoStikom}
           alt="Logo STIKOM El Rahma"
           style={{ width: 32, height: 32, objectFit: 'contain', flexShrink: 0 }}
         />

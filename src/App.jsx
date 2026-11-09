@@ -7,6 +7,7 @@ import RiwayatPage from './pages/RiwayatPage'
 import GrafikPage from './pages/GrafikPage'
 import InfoSensorPage from './pages/InfoSensorPage'
 import PengaturanPage from './pages/PengaturanPage'
+import logoStikom from './assets/logo-stikom.png'
 
 export default function App() {
   const [page, setPage] = useState('Beranda')
@@ -30,7 +31,7 @@ export default function App() {
                   <PengaturanPage />}
         <footer className="app-footer">
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <img src="/logo-stikom.png" alt="STIKOM" style={{ width: 15, height: 15, objectFit: 'contain' }} />
+            <img src={logoStikom} alt="STIKOM" style={{ width: 15, height: 15, objectFit: 'contain' }} />
             <span>AirWatch <b>·</b> STIKOM El Rahma Bogor</span>
           </span>
           <span>Bersih Udara, Sehat Bersama <i /></span>

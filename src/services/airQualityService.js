@@ -24,29 +24,49 @@ export const airQualityService = {
   },
 
   /**
+   * Cek apakah pemanggilan API aman dilakukan (mencegah Mixed Content error di HTTPS GitHub Pages)
+   */
+  isApiCallAllowed(baseUrl) {
+    if (!baseUrl) return false
+    if (typeof window === 'undefined') return false
+
+    const isHttps = window.location.protocol === 'https:'
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+
+    // Jika berjalan di HTTPS (GitHub Pages), hanya izinkan URL API yang HTTPS
+    if (isHttps && !baseUrl.startsWith('https://')) {
+      return false
+    }
+
+    return isLocalhost || baseUrl.startsWith('https://')
+  },
+
+  /**
    * Mengambil pembacaan sensor terbaru.
-   * Mencoba fetch ke REST API MySQL XAMPP. Jika offline, fallback ke simulasi dinamis.
+   * Mencoba fetch ke REST API jika mode API dan endpoint valid. Jika offline / mode simulasi, fallback ke simulasi dinamis.
    */
   async getLatestTelemetry() {
     const config = this.getConfig()
+    const baseUrl = config.apiUrl || DEFAULT_API_BASE
 
-    try {
-      const baseUrl = config.apiUrl || DEFAULT_API_BASE
-      const response = await fetch(`${baseUrl}/latest.php`, {
-        headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(2500),
-      })
-      if (response.ok) {
-        const json = await response.json()
-        if (json.status === 'success' && json.data) {
-          return { ...json.data, isLive: true }
+    if (config.mode === 'api' && this.isApiCallAllowed(baseUrl)) {
+      try {
+        const response = await fetch(`${baseUrl}/latest.php`, {
+          headers: { 'Content-Type': 'application/json' },
+          signal: AbortSignal.timeout(2500),
+        })
+        if (response.ok) {
+          const json = await response.json()
+          if (json.status === 'success' && json.data) {
+            return { ...json.data, isLive: true }
+          }
         }
+      } catch (err) {
+        // Backend offline, beralih ke simulasi
       }
-    } catch (err) {
-      // Backend belum aktif / offline, beralih ke simulasi
     }
 
-    // Dynamic mock fallback
+    // Dynamic real-time mock fallback
     const variation = Math.sin(Date.now() / 5000) * 6
     const pm25 = Math.max(10, Math.round(18 + variation + (Math.random() * 4 - 2)))
     const asapRokok = Math.max(2, Math.round(7 + (variation * 0.4) + (Math.random() * 2 - 1)))
@@ -70,24 +90,27 @@ export const airQualityService = {
    */
   async getHistory(filters = {}) {
     const config = this.getConfig()
-    try {
-      const baseUrl = config.apiUrl || DEFAULT_API_BASE
-      const queryParams = new URLSearchParams()
-      if (filters.status && filters.status !== 'Semua') queryParams.append('status', filters.status)
-      if (filters.date && filters.date !== 'Semua') queryParams.append('date', filters.date)
-      if (filters.q) queryParams.append('q', filters.q)
-      if (filters.limit) queryParams.append('limit', filters.limit)
+    const baseUrl = config.apiUrl || DEFAULT_API_BASE
 
-      const url = `${baseUrl}/history.php${queryParams.toString() ? '?' + queryParams.toString() : ''}`
-      const response = await fetch(url, { signal: AbortSignal.timeout(3000) })
-      if (response.ok) {
-        const json = await response.json()
-        if (json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
-          return json.data
+    if (config.mode === 'api' && this.isApiCallAllowed(baseUrl)) {
+      try {
+        const queryParams = new URLSearchParams()
+        if (filters.status && filters.status !== 'Semua') queryParams.append('status', filters.status)
+        if (filters.date && filters.date !== 'Semua') queryParams.append('date', filters.date)
+        if (filters.q) queryParams.append('q', filters.q)
+        if (filters.limit) queryParams.append('limit', filters.limit)
+
+        const url = `${baseUrl}/history.php${queryParams.toString() ? '?' + queryParams.toString() : ''}`
+        const response = await fetch(url, { signal: AbortSignal.timeout(3000) })
+        if (response.ok) {
+          const json = await response.json()
+          if (json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
+            return json.data
+          }
         }
+      } catch (err) {
+        // Fallback ke mock
       }
-    } catch (err) {
-      // Fallback ke mock
     }
     return history
   },
@@ -97,17 +120,20 @@ export const airQualityService = {
    */
   async getDailySummary() {
     const config = this.getConfig()
-    try {
-      const baseUrl = config.apiUrl || DEFAULT_API_BASE
-      const response = await fetch(`${baseUrl}/daily-summary.php`, { signal: AbortSignal.timeout(2500) })
-      if (response.ok) {
-        const json = await response.json()
-        if (json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
-          return json.data
+    const baseUrl = config.apiUrl || DEFAULT_API_BASE
+
+    if (config.mode === 'api' && this.isApiCallAllowed(baseUrl)) {
+      try {
+        const response = await fetch(`${baseUrl}/daily-summary.php`, { signal: AbortSignal.timeout(2500) })
+        if (response.ok) {
+          const json = await response.json()
+          if (json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
+            return json.data
+          }
         }
+      } catch (err) {
+        // Fallback ke mock
       }
-    } catch (err) {
-      // Fallback ke mock
     }
     return dailySummary
   },
