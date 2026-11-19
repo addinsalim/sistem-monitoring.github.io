@@ -3,6 +3,7 @@ import { Gauge, Flame, Car, Database, Sparkles } from 'lucide-react'
 import { QualityCard, MetricSensorCard } from '../components/SensorCards'
 import { ChartPanel, MapPanel, InfoPanel, ParamPanel, SystemPanel } from '../components/Panels'
 import PeakHoursAnalytics from '../components/PeakHoursAnalytics'
+import BogorNewsSection from '../components/BogorNewsSection'
 import { airQualityService } from '../services/airQualityService'
 import { evaluateAndAutoAlert } from '../services/whatsappService'
 
@@ -104,6 +105,9 @@ export default function Beranda() {
         <ParamPanel telemetry={telemetry} />
         <SystemPanel />
       </div>
+
+      {/* Komponen Baru: Berita & Isu Kualitas Udara Kota Bogor (Radar Bogor) */}
+      <BogorNewsSection />
     </div>
   )
 }
