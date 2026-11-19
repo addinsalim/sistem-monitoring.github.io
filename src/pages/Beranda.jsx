@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Gauge, Flame, Car, Database, Sparkles } from 'lucide-react'
 import { QualityCard, MetricSensorCard } from '../components/SensorCards'
 import { ChartPanel, MapPanel, InfoPanel, ParamPanel, SystemPanel } from '../components/Panels'
+import PeakHoursAnalytics from '../components/PeakHoursAnalytics'
 import { airQualityService } from '../services/airQualityService'
+import { evaluateAndAutoAlert } from '../services/whatsappService'
 
 export default function Beranda() {
   const [telemetry, setTelemetry] = useState({
@@ -23,6 +25,10 @@ export default function Beranda() {
         const data = await airQualityService.getLatestTelemetry()
         if (isMounted && data) {
           setTelemetry(data)
+          // Evaluasi ambang batas untuk notifikasi WhatsApp otomatis
+          if (data.pm25) {
+            evaluateAndAutoAlert(data.pm25)
+          }
         }
       } catch (e) {
         console.warn('Gagal memuat telemetri Beranda:', e)
@@ -56,6 +62,7 @@ export default function Beranda() {
       <div className="sensor-cards-grid">
         <QualityCard
           status={telemetry.status}
+          pm25={telemetry.pm25}
           desc={telemetry.status === 'Baik' ? 'Kondisi udara di area parkir masih dalam batas aman.' : 'Terdeteksi peningkatan konsentrasi polutan udara.'}
         />
         <MetricSensorCard
@@ -88,6 +95,9 @@ export default function Beranda() {
         <ChartPanel />
         <MapPanel />
       </div>
+
+      {/* Komponen Baru: Analisis Pola Jam Sibuk Area Parkir */}
+      <PeakHoursAnalytics />
 
       <div className="bottom-three-grid">
         <InfoPanel />

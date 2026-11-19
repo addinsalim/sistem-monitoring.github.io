@@ -74,6 +74,7 @@ export default function RealtimePage() {
       <div className="sensor-cards-grid" style={{ marginBottom: 16 }}>
         <QualityCard
           status={currentStatus}
+          pm25={currentReading.pm25}
           desc={currentStatus === 'Baik' ? 'Kondisi udara di area parkir dalam batas aman.' : 'Terjadi peningkatan konsentrasi partikel.'}
         />
         <MetricSensorCard

@@ -1063,6 +1063,190 @@ html, body, .app-shell, .sidebar, .topbar, .panel, .sensor-card,
   transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
+/* ═══════════════════════════════════════════════
+   Hybrid Auth (Admin / Visitor) & Modal Styles
+═══════════════════════════════════════════════ */
+.admin-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #0e243d;
+  color: #7dd3fc;
+  border: 1px solid #1e4a77;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.admin-login-btn:hover {
+  background: #153860;
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+}
+.admin-active-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  background: #103326;
+  color: #4ade80;
+  border: 1px solid #1a593d;
+  white-space: nowrap;
+}
+.admin-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #1a1e29;
+  color: #94a3b8;
+  border: 1px solid #2d3748;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.admin-logout-btn:hover {
+  background: #2d1b22;
+  color: #f87171;
+  border-color: #7f1d1d;
+}
+
+/* Light Theme Auth Buttons */
+[data-theme="light"] .admin-login-btn {
+  background: #f0f9ff;
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+[data-theme="light"] .admin-login-btn:hover {
+  background: #e0f2fe;
+  border-color: #0284c7;
+  color: #0284c7;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
+}
+[data-theme="light"] .admin-active-badge {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #86efac;
+}
+[data-theme="light"] .admin-logout-btn {
+  background: #f1f5f9;
+  color: #64748b;
+  border-color: #cbd5e1;
+}
+[data-theme="light"] .admin-logout-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+/* ─── Login Form & Inputs ─── */
+.login-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.login-field-icon {
+  position: absolute;
+  left: 11px;
+  color: #64748b;
+  pointer-events: none;
+}
+.login-input {
+  width: 100%;
+  padding: 9px 12px 9px 34px;
+  border-radius: 8px;
+  border: 1px solid #1e3553;
+  background: #0d1a2d;
+  color: #e8f2ff;
+  font-size: 12px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.login-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+[data-theme="light"] .login-input {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+[data-theme="light"] .login-input:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+}
+.login-alert-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 11px;
+  background: #2a1215;
+  color: #fca5a5;
+  border: 1px solid #7f1d1d;
+}
+[data-theme="light"] .login-alert-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.login-demo-pill {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #142a45;
+  border: 1px solid #1e4570;
+  color: #7dd3fc;
+  font-size: 9.5px;
+  font-family: monospace;
+  transition: all 0.15s ease;
+}
+.login-demo-pill:hover {
+  background: #1a3860;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+[data-theme="light"] .login-demo-pill {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0284c7;
+}
+[data-theme="light"] .login-demo-pill:hover {
+  background: #e0f2fe;
+  border-color: #0284c7;
+}
+
+/* ═══════════════════════════════════════════════
+   Contextual Recommendations & Peak Hours
+═══════════════════════════════════════════════ */
+.action-recommendation-box {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #1e3a5f;
+  background: linear-gradient(135deg, rgba(14, 38, 66, 0.8), rgba(9, 25, 45, 0.95));
+}
+[data-theme="light"] .action-recommendation-box {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-color: #cbd5e1;
+}
+
+.peak-hours-panel {
+  padding: 22px;
+  margin-bottom: 22px;
+}
+
 /* ═══════════════════════════════════════
    Print Styles (Cetak Laporan / PDF)
 ═══════════════════════════════════════ */

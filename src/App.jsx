@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
+import AdminLoginModal from './components/AdminLoginModal'
 import Beranda from './pages/Beranda'
 import RealtimePage from './pages/RealtimePage'
 import RiwayatPage from './pages/RiwayatPage'
@@ -15,6 +16,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <AdminLoginModal />
       <Sidebar
         page={page}
         setPage={setPage}

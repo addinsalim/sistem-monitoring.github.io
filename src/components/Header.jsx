@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Menu, CalendarDays, Clock3, Sun, Moon } from 'lucide-react'
+import {
+  Menu, CalendarDays, Clock3, Sun, Moon,
+  Lock, LogOut, ShieldCheck, UserCheck
+} from 'lucide-react'
 import logoStikom from '../assets/logo-stikom.png'
 import { useTheme } from '../context/ThemeContext'
+import { useAuth } from '../context/AuthContext'
 
 export default function Header({ setMobileOpen }) {
   const [now, setNow] = useState(new Date())
   const { theme, toggleTheme } = useTheme()
+  const { isAdmin, user, setLoginModalOpen, logout } = useAuth()
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
@@ -55,6 +60,34 @@ export default function Header({ setMobileOpen }) {
             </>
           )}
         </button>
+
+        {/* Tombol Login / Status Admin Hybrid */}
+        {!isAdmin ? (
+          <button
+            className="admin-login-btn"
+            onClick={() => setLoginModalOpen(true)}
+            title="Masuk sebagai Administrator / Pengelola Kampus"
+          >
+            <Lock size={13} />
+            <span className="admin-btn-text">Login Admin</span>
+          </button>
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span className="admin-active-badge" title={`Login sebagai: ${user?.name || user?.email}`}>
+              <ShieldCheck size={13} />
+              <span className="admin-badge-text">Admin Aktif</span>
+            </span>
+            <button
+              className="admin-logout-btn"
+              onClick={logout}
+              title="Keluar dari sesi Administrator"
+              aria-label="Keluar"
+            >
+              <LogOut size={13} />
+              <span className="admin-btn-text">Keluar</span>
+            </button>
+          </div>
+        )}
 
         <div className="online-badge">
           <i className="online-dot" /> Online
