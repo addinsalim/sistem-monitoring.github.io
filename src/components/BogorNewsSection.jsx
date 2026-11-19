@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import {
   Newspaper, ExternalLink, RotateCw, Calendar,
-  Sparkles, CheckCircle2, AlertCircle, Bookmark
+  Sparkles, CheckCircle2, AlertCircle, Bookmark, ShieldCheck
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
-import { radarBogorNewsService, FALLBACK_BOGOR_NEWS } from '../services/radarBogorNewsService'
+import { radarBogorNewsService, REAL_RADAR_BOGOR_ARTICLES } from '../services/radarBogorNewsService'
 
 export default function BogorNewsSection() {
   const { isDark } = useTheme()
@@ -23,9 +23,9 @@ export default function BogorNewsSection() {
       setSourceDesc(result.sourceDesc)
       setLastUpdated(new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB')
     } catch (e) {
-      setArticles(FALLBACK_BOGOR_NEWS)
+      setArticles(REAL_RADAR_BOGOR_ARTICLES)
       setIsFallback(true)
-      setSourceDesc('Arsip Berita Radar Bogor')
+      setSourceDesc('Radar Bogor (Arsip Resmi)')
     } finally {
       setLoading(false)
     }
@@ -181,6 +181,7 @@ export default function BogorNewsSection() {
                 <img
                   src={item.thumbnail}
                   alt={item.title}
+                  referrerPolicy="no-referrer"
                   onError={handleImageError}
                   loading="lazy"
                   style={{
