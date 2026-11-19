@@ -47,17 +47,7 @@ export default function Beranda() {
     <div className="page-content">
       {/* Status sumber data */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
-        <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 6,
-          fontSize: 10,
-          color: telemetry.isLive ? '#4ade80' : '#38bdf8',
-          background: telemetry.isLive ? '#0d2620' : '#0e2240',
-          border: `1px solid ${telemetry.isLive ? '#1a5940' : '#1d4a72'}`,
-          padding: '4px 10px',
-          borderRadius: 6
-        }}>
+        <span className={`telemetry-source-badge ${telemetry.isLive ? 'source-live' : 'source-sim'}`}>
           {telemetry.isLive ? <Database size={12} /> : <Sparkles size={12} />}
           <span>{telemetry.isLive ? 'Terhubung Database MySQL XAMPP' : 'Mode Simulasi Telemetri'}</span>
         </span>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Menu, CalendarDays, Clock3 } from 'lucide-react'
+import { Menu, CalendarDays, Clock3, Sun, Moon } from 'lucide-react'
 import logoStikom from '../assets/logo-stikom.png'
+import { useTheme } from '../context/ThemeContext'
 
 export default function Header({ setMobileOpen }) {
   const [now, setNow] = useState(new Date())
+  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
@@ -34,6 +36,26 @@ export default function Header({ setMobileOpen }) {
         </div>
       </div>
       <div className="topbar-right">
+        {/* Toggle Mode Terang / Gelap */}
+        <button
+          className="theme-toggle-btn"
+          onClick={toggleTheme}
+          title={theme === 'dark' ? 'Beralih ke Mode Terang (Light Mode)' : 'Beralih ke Mode Gelap (Dark Mode)'}
+          aria-label="Ubah tema terang/gelap"
+        >
+          {theme === 'dark' ? (
+            <>
+              <Sun size={15} className="theme-toggle-icon sun-icon" />
+              <span className="theme-toggle-text">Mode Terang</span>
+            </>
+          ) : (
+            <>
+              <Moon size={15} className="theme-toggle-icon moon-icon" />
+              <span className="theme-toggle-text">Mode Gelap</span>
+            </>
+          )}
+        </button>
+
         <div className="online-badge">
           <i className="online-dot" /> Online
         </div>

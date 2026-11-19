@@ -10,9 +10,24 @@ import {
 } from 'recharts'
 import StatusBadge from './StatusBadge'
 import { chartData, notifications, parameters, systemStatus } from '../data/mockData'
+import { useTheme } from '../context/ThemeContext'
 
 /* ─── Chart Panel (24 Jam) ─── */
 export function ChartPanel() {
+  const { isDark } = useTheme()
+
+  const gridStroke = isDark ? '#1e3152' : '#e2e8f0'
+  const tickFill = isDark ? '#6b82a0' : '#64748b'
+  const tooltipStyle = {
+    borderRadius: 10,
+    border: isDark ? '1px solid #1e3152' : '1px solid #e2e8f0',
+    background: isDark ? '#0d1b31' : '#ffffff',
+    color: isDark ? '#d0e4ff' : '#0f172a',
+    boxShadow: isDark ? 'none' : '0 4px 16px rgba(15, 23, 42, 0.08)',
+    fontSize: 12
+  }
+  const legendColor = isDark ? '#8097b8' : '#64748b'
+
   return (
     <article className="panel chart-panel-new">
       <div className="panel-heading">
@@ -21,18 +36,18 @@ export function ChartPanel() {
       <div className="chart-wrap-new">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 8, right: 16, left: 4, bottom: 0 }}>
-            <CartesianGrid stroke="#1e3152" strokeDasharray="4 6" vertical={false} />
+            <CartesianGrid stroke={gridStroke} strokeDasharray="4 6" vertical={false} />
             <XAxis
               dataKey="time"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#6b82a0', fontSize: 11 }}
+              tick={{ fill: tickFill, fontSize: 11 }}
               dy={8}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#6b82a0', fontSize: 11 }}
+              tick={{ fill: tickFill, fontSize: 11 }}
               domain={[0, 200]}
               ticks={[0, 50, 100, 150, 200]}
               width={56}
@@ -41,17 +56,11 @@ export function ChartPanel() {
                 angle: -90,
                 position: 'insideLeft',
                 offset: 14,
-                style: { fill: '#5a718f', fontSize: 9 }
+                style: { fill: tickFill, fontSize: 9 }
               }}
             />
             <Tooltip
-              contentStyle={{
-                borderRadius: 10,
-                border: '1px solid #1e3152',
-                background: '#0d1b31',
-                color: '#d0e4ff',
-                fontSize: 12
-              }}
+              contentStyle={tooltipStyle}
               formatter={(v, name) => [
                 `${v} μg/m³`,
                 name === 'pm25' ? 'PM2.5 (Debu)' : name === 'asapRokok' ? 'Asap Rokok' : 'Asap Kendaraan'
@@ -61,7 +70,7 @@ export function ChartPanel() {
               iconType="circle"
               iconSize={8}
               formatter={v => v === 'pm25' ? 'PM2.5 (Debu)' : v === 'asapRokok' ? 'Asap Rokok' : 'Asap Kendaraan'}
-              wrapperStyle={{ fontSize: 10, color: '#8097b8', paddingTop: 6 }}
+              wrapperStyle={{ fontSize: 10, color: legendColor, paddingTop: 6 }}
             />
             <Line type="monotone" dataKey="pm25" stroke="#38bdf8" strokeWidth={2} dot={{ r: 3, fill: '#38bdf8', strokeWidth: 0 }} activeDot={{ r: 5 }} />
             <Line type="monotone" dataKey="asapRokok" stroke="#a78bfa" strokeWidth={2} dot={{ r: 3, fill: '#a78bfa', strokeWidth: 0 }} activeDot={{ r: 5 }} />

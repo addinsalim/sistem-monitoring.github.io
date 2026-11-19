@@ -11,8 +11,11 @@ import {
 import SectionTitle from '../components/SectionTitle'
 import StatusBadge from '../components/StatusBadge'
 import { dailySummary } from '../data/mockData'
+import { useTheme } from '../context/ThemeContext'
 
 export default function GrafikPage() {
+  const { isDark } = useTheme()
+
   // Ambang batas default (berdasarkan ISPU Indonesia kategori Baik/Sedang)
   const [batas, setBatas] = useState({
     pm25:          { baik: 35,  sedang: 75  },
@@ -76,11 +79,16 @@ export default function GrafikPage() {
     setBatas(prev => ({ ...prev, [param]: { ...prev[param], [level]: num } }))
   }
 
+  const gridStroke = isDark ? '#1e3152' : '#e2e8f0'
+  const tickFill = isDark ? '#6b82a0' : '#64748b'
+  const legendColor = isDark ? '#8097b8' : '#64748b'
+
   const tooltipStyle = {
     borderRadius: 10,
-    border: '1px solid #1e3152',
-    background: '#0d1b31',
-    color: '#d0e4ff',
+    border: isDark ? '1px solid #1e3152' : '1px solid #e2e8f0',
+    background: isDark ? '#0d1b31' : '#ffffff',
+    color: isDark ? '#d0e4ff' : '#0f172a',
+    boxShadow: isDark ? 'none' : '0 4px 16px rgba(15, 23, 42, 0.08)',
     fontSize: 12
   }
 
@@ -193,15 +201,15 @@ export default function GrafikPage() {
         <div className="gkm-chart-wrap">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={hourlyData} margin={{ top: 8, right: 20, left: 4, bottom: 0 }}>
-              <CartesianGrid stroke="#1e3152" strokeDasharray="4 6" vertical={false} />
-              <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: '#6b82a0', fontSize: 10 }} dy={8} interval={2} />
+              <CartesianGrid stroke={gridStroke} strokeDasharray="4 6" vertical={false} />
+              <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: tickFill, fontSize: 10 }} dy={8} interval={2} />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#6b82a0', fontSize: 10 }}
+                tick={{ fill: tickFill, fontSize: 10 }}
                 domain={[0, 100]}
                 width={44}
-                label={{ value: 'μg/m³', angle: -90, position: 'insideLeft', offset: 14, style: { fill: '#5a718f', fontSize: 9 } }}
+                label={{ value: 'μg/m³', angle: -90, position: 'insideLeft', offset: 14, style: { fill: tickFill, fontSize: 9 } }}
               />
               <Tooltip
                 contentStyle={tooltipStyle}
@@ -211,7 +219,7 @@ export default function GrafikPage() {
                 iconType="circle"
                 iconSize={8}
                 formatter={v => v === 'pm25' ? 'PM2.5 (Debu)' : v === 'asapRokok' ? 'Asap Rokok' : 'Asap Kendaraan'}
-                wrapperStyle={{ fontSize: 10, color: '#8097b8', paddingTop: 6 }}
+                wrapperStyle={{ fontSize: 10, color: legendColor, paddingTop: 6 }}
               />
               <ReferenceLine
                 y={batas.pm25.baik}
@@ -248,9 +256,9 @@ export default function GrafikPage() {
         <div className="gkm-chart-wrap" style={{ height: 220 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={dailyBar} margin={{ top: 8, right: 20, left: 4, bottom: 0 }}>
-              <CartesianGrid stroke="#1e3152" strokeDasharray="4 6" vertical={false} />
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#6b82a0', fontSize: 10 }} dy={8} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6b82a0', fontSize: 10 }} domain={[0, 80]} width={44} />
+              <CartesianGrid stroke={gridStroke} strokeDasharray="4 6" vertical={false} />
+              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: tickFill, fontSize: 10 }} dy={8} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: tickFill, fontSize: 10 }} domain={[0, 80]} width={44} />
               <Tooltip
                 contentStyle={tooltipStyle}
                 formatter={(v, name) => [`${v} μg/m³`, name === 'pm25Avg' ? 'PM2.5 Avg' : name === 'asapRokokAvg' ? 'Asap Rokok Avg' : 'Asap Kendaraan Avg']}
@@ -259,7 +267,7 @@ export default function GrafikPage() {
                 iconType="square"
                 iconSize={8}
                 formatter={v => v === 'pm25Avg' ? 'PM2.5 Avg' : v === 'asapRokokAvg' ? 'Asap Rokok Avg' : 'Asap Kendaraan Avg'}
-                wrapperStyle={{ fontSize: 10, color: '#8097b8', paddingTop: 6 }}
+                wrapperStyle={{ fontSize: 10, color: legendColor, paddingTop: 6 }}
               />
               <ReferenceLine y={batas.pm25.baik} stroke="#4ade8077" strokeDasharray="5 3" />
               <ReferenceLine y={batas.pm25.sedang} stroke="#fbbf2477" strokeDasharray="5 3" />
@@ -291,14 +299,14 @@ export default function GrafikPage() {
               {ispuTable.map(row => (
                 <tr key={row.kategori}>
                   <td>
-                    <span className="ispu-badge" style={{ background: row.warna + '22', color: row.warna, border: `1px solid ${row.warna}55` }}>
+                    <span className="ispu-badge" style={{ background: row.warna + '22', color: isDark ? row.warna : row.textWarna, border: `1px solid ${row.warna}55` }}>
                       <span className="ispu-dot" style={{ background: row.warna }} />
                       {row.kategori}
                     </span>
                   </td>
                   <td><b className="raw-number">{row.range}</b></td>
                   <td><b className="raw-number">{row.pm25}</b></td>
-                  <td><span style={{ fontSize: 9.5, color: '#7a95b3', lineHeight: 1.55 }}>{row.desc}</span></td>
+                  <td><span style={{ fontSize: 9.5, color: isDark ? '#7a95b3' : '#475569', lineHeight: 1.55 }}>{row.desc}</span></td>
                 </tr>
               ))}
             </tbody>

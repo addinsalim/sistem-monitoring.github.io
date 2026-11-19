@@ -5,8 +5,10 @@ import {
 } from 'lucide-react'
 import SectionTitle from '../components/SectionTitle'
 import logoStikom from '../assets/logo-stikom.png'
+import { useTheme } from '../context/ThemeContext'
 
 export default function InfoSensorPage() {
+  const { isDark } = useTheme()
   const sensors = [
     {
       id: 'sharp-gp2y',
@@ -129,15 +131,15 @@ export default function InfoSensorPage() {
   ]
 
   const langColors = {
-    'JavaScript': { bg: '#2e2200', color: '#fbbf24', border: '#5c3d00' },
-    'C++':        { bg: '#1c0e40', color: '#a78bfa', border: '#3b2080' },
-    'CSS':        { bg: '#0e2240', color: '#38bdf8', border: '#1d4a72' },
-    'SQL':        { bg: '#0d2620', color: '#34d399', border: '#1a5940' },
-    'Config':     { bg: '#1a2035', color: '#94a3b8', border: '#2e3e56' },
-    'SVG':        { bg: '#2a1818', color: '#fb7185', border: '#5a2a2a' },
-    'Protocol':   { bg: '#1a2035', color: '#818cf8', border: '#2e3e56' },
-    'Format':     { bg: '#1a2035', color: '#94a3b8', border: '#2e3e56' },
-    'IDE':        { bg: '#1a2035', color: '#94a3b8', border: '#2e3e56' },
+    'JavaScript': isDark ? { bg: '#2e2200', color: '#fbbf24', border: '#5c3d00' } : { bg: '#fef9c3', color: '#a16207', border: '#fde047' },
+    'C++':        isDark ? { bg: '#1c0e40', color: '#a78bfa', border: '#3b2080' } : { bg: '#f3e8ff', color: '#7e22ce', border: '#d8b4fe' },
+    'CSS':        isDark ? { bg: '#0e2240', color: '#38bdf8', border: '#1d4a72' } : { bg: '#e0f2fe', color: '#0369a1', border: '#7dd3fc' },
+    'SQL':        isDark ? { bg: '#0d2620', color: '#34d399', border: '#1a5940' } : { bg: '#dcfce7', color: '#15803d', border: '#86efac' },
+    'Config':     isDark ? { bg: '#1a2035', color: '#94a3b8', border: '#2e3e56' } : { bg: '#f1f5f9', color: '#475569', border: '#cbd5e1' },
+    'SVG':        isDark ? { bg: '#2a1818', color: '#fb7185', border: '#5a2a2a' } : { bg: '#ffe4e6', color: '#be123c', border: '#fecdd3' },
+    'Protocol':   isDark ? { bg: '#1a2035', color: '#818cf8', border: '#2e3e56' } : { bg: '#ede9fe', color: '#4338ca', border: '#c7d2fe' },
+    'Format':     isDark ? { bg: '#1a2035', color: '#94a3b8', border: '#2e3e56' } : { bg: '#f1f5f9', color: '#475569', border: '#cbd5e1' },
+    'IDE':        isDark ? { bg: '#1a2035', color: '#94a3b8', border: '#2e3e56' } : { bg: '#f1f5f9', color: '#475569', border: '#cbd5e1' },
   }
 
   return (
@@ -157,18 +159,22 @@ export default function InfoSensorPage() {
       <div className="sensor-info-grid">
         {sensors.map(s => {
           const Icon = s.icon
+          const headerBg = isDark ? s.colorBg : (s.id === 'sharp-gp2y' ? '#f0f9ff' : s.id === 'mq2' ? '#faf5ff' : s.id === 'dht22' ? '#f0fdf4' : '#fffbeb')
+          const headerBorder = isDark ? s.colorBorder : (s.id === 'sharp-gp2y' ? '#bae6fd' : s.id === 'mq2' ? '#e9d5ff' : s.id === 'dht22' ? '#bbf7d0' : '#fde68a')
+          const badgeColor = isDark ? s.color : (s.id === 'sharp-gp2y' ? '#0284c7' : s.id === 'mq2' ? '#7e22ce' : s.id === 'dht22' ? '#15803d' : '#b45309')
+
           return (
-            <article key={s.id} className="sensor-info-card" style={{ borderColor: s.colorBorder }}>
+            <article key={s.id} className="sensor-info-card" style={{ borderColor: headerBorder }}>
               {/* Card header */}
-              <div className="sic-header" style={{ background: s.colorBg }}>
-                <div className="sic-icon" style={{ color: s.color, border: `1px solid ${s.colorBorder}` }}>
+              <div className="sic-header" style={{ background: headerBg }}>
+                <div className="sic-icon" style={{ color: badgeColor, border: `1px solid ${headerBorder}` }}>
                   <Icon size={22} />
                 </div>
                 <div>
                   <div className="sic-category">{s.category}</div>
                   <div className="sic-name">{s.name}</div>
                 </div>
-                <span className="sic-badge" style={{ color: s.color, background: s.colorBg, borderColor: s.colorBorder }}>
+                <span className="sic-badge" style={{ color: badgeColor, background: headerBg, borderColor: headerBorder }}>
                   {s.badge}
                 </span>
               </div>

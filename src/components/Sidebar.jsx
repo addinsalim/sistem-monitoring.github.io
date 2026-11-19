@@ -60,7 +60,7 @@ export default function Sidebar({ page, setPage, mobileOpen, setMobileOpen }) {
         <div className="sidebar-spacer" />
 
         <div className="sidebar-bottom-brand">
-          <div className="bottom-brand-icon" style={{ background: '#0a172a' }}>
+          <div className="bottom-brand-icon">
             <img src={logoStikom} alt="STIKOM" style={{ width: 22, height: 22, objectFit: 'contain' }} />
           </div>
           <div>

@@ -14,8 +14,10 @@ import { HistoryStat } from '../components/SensorCards'
 import RowDetailModal from '../components/RowDetailModal'
 import { history as initialHistory, dailySummary as initialDailySummary } from '../data/mockData'
 import { airQualityService } from '../services/airQualityService'
+import { useTheme } from '../context/ThemeContext'
 
 export default function RiwayatPage() {
+  const { isDark } = useTheme()
   const ROWS_PER_PAGE = 8
   const [dataList, setDataList] = useState(initialHistory)
   const [dailyData, setDailyData] = useState(initialDailySummary)
@@ -25,6 +27,18 @@ export default function RiwayatPage() {
   const [page, setPage] = useState(1)
   const [detailRow, setDetailRow] = useState(null)
   const [exportMsg, setExportMsg] = useState('')
+
+  const gridStroke = isDark ? '#1e3152' : '#e2e8f0'
+  const tickFill = isDark ? '#6b82a0' : '#64748b'
+  const tooltipStyle = {
+    borderRadius: 10,
+    border: isDark ? '1px solid #1e3152' : '1px solid #e2e8f0',
+    background: isDark ? '#0d1b31' : '#ffffff',
+    color: isDark ? '#d0e4ff' : '#0f172a',
+    boxShadow: isDark ? 'none' : '0 4px 16px rgba(15, 23, 42, 0.08)',
+    fontSize: 12
+  }
+  const legendColor = isDark ? '#8097b8' : '#64748b'
 
   useEffect(() => {
     airQualityService.getHistory().then(res => {
@@ -89,9 +103,8 @@ export default function RiwayatPage() {
         action={
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button
-              className="primary-button"
+              className="primary-button print-report-btn"
               onClick={() => window.print()}
-              style={{ background: '#0e233d', borderColor: '#1d436b' }}
               title="Cetak atau simpan sebagai dokumen PDF"
             >
               <Printer size={15} /> Cetak Laporan
@@ -129,18 +142,18 @@ export default function RiwayatPage() {
         <div className="hist-chart-wrap">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={dailyData} margin={{ top: 8, right: 16, left: 4, bottom: 0 }}>
-              <CartesianGrid stroke="#1e3152" strokeDasharray="4 6" vertical={false} />
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#6b82a0', fontSize: 11 }} dy={8} />
+              <CartesianGrid stroke={gridStroke} strokeDasharray="4 6" vertical={false} />
+              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: tickFill, fontSize: 11 }} dy={8} />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#6b82a0', fontSize: 11 }}
+                tick={{ fill: tickFill, fontSize: 11 }}
                 domain={[0, 80]}
                 width={44}
-                label={{ value: 'μg/m³', angle: -90, position: 'insideLeft', offset: 14, style: { fill: '#5a718f', fontSize: 9 } }}
+                label={{ value: 'μg/m³', angle: -90, position: 'insideLeft', offset: 14, style: { fill: tickFill, fontSize: 9 } }}
               />
               <Tooltip
-                contentStyle={{ borderRadius: 10, border: '1px solid #1e3152', background: '#0d1b31', color: '#d0e4ff', fontSize: 12 }}
+                contentStyle={tooltipStyle}
                 formatter={(v, name) => [
                   `${v} μg/m³`,
                   name === 'pm25Avg' ? 'Rata-rata PM2.5' : name === 'asapRokokAvg' ? 'Rata-rata Asap Rokok' : name === 'asapKendaraanAvg' ? 'Rata-rata Asap Kendaraan' : 'Maks PM2.5'
@@ -150,7 +163,7 @@ export default function RiwayatPage() {
                 iconType="circle"
                 iconSize={8}
                 formatter={v => v === 'pm25Avg' ? 'PM2.5 Avg' : v === 'asapRokokAvg' ? 'Asap Rokok Avg' : v === 'asapKendaraanAvg' ? 'Asap Kendaraan Avg' : 'PM2.5 Maks'}
-                wrapperStyle={{ fontSize: 10, color: '#8097b8', paddingTop: 6 }}
+                wrapperStyle={{ fontSize: 10, color: legendColor, paddingTop: 6 }}
               />
               <Line type="monotone" dataKey="pm25Avg" stroke="#38bdf8" strokeWidth={2} dot={{ r: 4, fill: '#38bdf8', strokeWidth: 0 }} activeDot={{ r: 6 }} />
               <Line type="monotone" dataKey="asapRokokAvg" stroke="#a78bfa" strokeWidth={2} dot={{ r: 4, fill: '#a78bfa', strokeWidth: 0 }} activeDot={{ r: 6 }} />
